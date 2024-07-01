@@ -44,23 +44,19 @@ function TicTacToe (e) {
 }
 // get x or o  
 function getPlayerChoices(e) {
-
-    if (lastChoice == playerOne) {
-        lastChoice = playerTwo;
-        e.target.innerText = lastChoice;
-        playerX.classList.add('add')
-        playerO.classList.remove('add')
-
-    }
-    else {
-        lastChoice = playerOne;
-        e.target.innerText = lastChoice
-        playerO.classList.add('add')
-        playerX.classList.remove('add')
-    }
-
+    lastChoice = lastChoice===playerOne ?playerTwo:playerOne;
+    e.target.innerText=lastChoice
+   toggleActivePlayer()
 }
-
+function toggleActivePlayer(){
+    if (lastChoice ===playerOne){
+        playerX.classList.remove('add');
+        playerO.classList.add('add');
+    }else{
+        playerO.classList.remove('add');
+        playerX.classList.add('add')
+    }
+}
 // playerOne win or playerTwo
 function playerWinner() {
 const winPatterns = [
@@ -80,45 +76,52 @@ winPatterns.forEach((pattern)=>{
     const [a,b,c]=pattern
     if(cells[a].innerText ===playerOne && cells[b].innerText === playerOne && cells[c].innerText === playerOne){
         winnerFound=true
-        showModal();
         playerOneStatus()
     }else if(cells[a].innerText ===playerTwo && cells[b].innerText === playerTwo && cells[c].innerText ===playerTwo){
         winnerFound = true;
-        showModal();
         playerTwoStatus()
     }
 })
     
- if(!winnerFound){
+   if(winnerFound){
+    showModal()
+   }
+  else{
     cnt++
-   //The !winnerFound condition at the end ensures that if no winning pattern is detected and all cells are filled, it correctly identifies the game as a tie.
-
     if(cnt === cells.length){
         showModal();
         winner.innerHTML='It\'s a Tie!'
     }
- }
+  }
    
+ 
+   
+}
+// update Score
+function updateScore(player){
+    if(player === playerOne){
+        cntX++;
+        scoreX.innerHTML=cntX
+    }else{
+        cntY++;
+        scoreO.innerHTML=cntY
+    }
+    rnd++;
+    round.innerHTML=`round :${rnd}`
 }
 // info player 1
 function playerOneStatus(){
     winner.innerHTML = `The winner Is ${playerOne}`
     playerO.classList.remove('add');
-    playerX.classList.add('add')
-   cntX++;
-   scoreX.innerHTML=cntX
-    rnd++;
-    round.innerHTML=`round :${rnd}`
+    playerX.classList.add('add');
+   updateScore(playerOne)
 }
 // info player 2
 function playerTwoStatus(){
     winner.innerHTML = `The winner Is ${playerTwo}`
     playerX.classList.remove('add');
-    playerO.classList.add('add')
-    cntY++;
-    scoreO.innerHTML=cntY;
-     rnd++;
-    round.innerHTML=`round :${rnd}`
+    playerO.classList.add('add');
+    updateScore(playerTwo)
 }
 // restart game
 function restartGame (){
@@ -150,7 +153,7 @@ function hideNav(){
 }
 
 //event listeners
-cells.forEach((cell) => cell.addEventListener('click', (e)=>TicTacToe(e)))
+cells.forEach((cell) => cell.addEventListener('click', TicTacToe))
 restart.addEventListener('click', restartGame);
 humberger.addEventListener('click',showNav)
 close.addEventListener('click',hideNav)
