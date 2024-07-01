@@ -1,0 +1,148 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: #2d3436;
+}
+.container{
+    width: 100%;
+    text-align: center;
+    font-size: 22px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+h1{
+    padding: 20px;
+    width: 100%;
+    text-align: center;
+    color: white;
+}
+.result{
+    margin: 1rem;
+    font-weight: bold;
+}
+.gameboard{
+    width: 300px;
+    height: 300px;
+    border: 1px solid;
+    margin: 1rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    background-color: aliceblue;
+
+}
+.gameboard div {
+    border: 1px solid;
+    padding: 20px;
+    font-size: 31px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.restart {
+    border: none;
+    padding: 9px 16px;
+    background-color: #0080009c;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+.modal{
+    background: #fff;
+    width: 400px;
+    height: 120px;
+    border-radius: 8px;
+    position: absolute;
+    top: 50%;
+   color: black;
+    gap: 1rem;
+    transform: scale(0);
+    
+}
+.overlay{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+}
+.PlayerOne ,.PlayerTwo{
+    border: none;
+    padding: 6px;
+    margin-right: 0.5rem;
+    color: black;
+}
+
+.add{
+    border: 2px solid #008000;
+    border-radius: 0.25rem;
+    transition: 0.3s ease; 
+    font-weight: bold;
+}
+
+.humberger{
+    position: absolute;
+    top: 20px;
+    left: 5px;
+    color: cornflowerblue ;
+    cursor: pointer;
+}
+nav{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background: #7f9cf5;
+    width: 300px;
+    height: 100%;
+    padding: 10px;
+    border-radius: 0.25rem;
+    transform: translateX(-440px);
+    transition: 0.3s;
+}
+.top{
+    margin-bottom: 3rem;
+    display: flex;
+    justify-content: space-between;
+
+}
+h2{
+    font-size: 26px;
+    text-align: left;
+    font-weight: bold;
+    color: white;
+}
+h3{
+    color: white;
+    border: 3px solid black;
+    margin-bottom: 1rem;
+}
+h4{
+    color: white;
+    background: #a3bffa;
+}
+.player1,.player2{
+    border: 1px solid;
+    height: 100px;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+.red {
+    color: red;
+    cursor: pointer;
+}
+#sc{
+    margin: 1rem;
+    font-size: 29px;
+    font-weight: bold;
+}

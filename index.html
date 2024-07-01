@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles.css">
+    <title>Tic Tac Toe</title>
+</head>
+<body>
+    <h1>Tic Tac Toe</h1>
+    <div class="container">
+        <div class="score">
+        <div  class="humberger" id="humberger">  
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <nav id="nav">
+              <div class="top">
+                <h2>Play X & O</h2>
+                <i class="fa-solid fa-xmark red" id="close"></i>
+              </div>
+                <h3>Score Board</h3>
+                <div class="player1">
+                    <h4>Player 1</h4>
+                    <div class="scoreX" id="sc">0</div>
+                </div>
+                <div class="player2">
+                    <h4>Player 2</h4>
+                    <div class="scoreO" id="sc">0</div>
+
+                </div>
+                <div class="round" id="round" id="round">round :</div>
+            </nav>
+        </div>
+       <div class="first">
+        <div class="result">
+            <button id="PlayerOne" class="PlayerOne">Player 1</button>
+            <button  id="PlayerTwo" class="PlayerTwo">Player 2</button>
+     
+         </div>
+         <div class="gameboard" id="gameboard">
+           <div id="cell"></div>
+           <div id="cell"></div>
+           <div id="cell"></div>
+           <div id="cell"></div>
+           <div id="cell"></div>
+           <div id="cell"></div>
+           <div id="cell"></div>
+           <div id="cell"></div>
+           <div id="cell"></div>
+         </div>
+         <div class="overlay" id="overlay"></div>
+         <div id="modal" class="modal">
+              <div class="winner"></div>
+             <button class="restart" id="restart">Restart</button>
+         </div>
+       </div>
+    </div>
+<script src="script.js"></script>
+</body>
+</html>
