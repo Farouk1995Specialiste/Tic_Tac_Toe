@@ -1,7 +1,8 @@
 "use strict"
 
 // target dom
-const cells = document.querySelectorAll('#cell') // Assuming cells have class "cell"
+const cells =[ ...document.querySelectorAll('#cell') ];
+
 const playerX = document.querySelector('.PlayerOne')
 const playerO = document.querySelector('.PlayerTwo')
 
@@ -18,15 +19,24 @@ const scoreO = document.querySelector('.scoreO')
 const round = document.getElementById('round')
 
 // variables
-let lastChoice = null
-let cnt = 0
 let cntX = 0,
     cntY = 0,
     rnd = 0
-
+ let turnX=true;
 // add class .add
 playerX.classList.add('add')
 
+// array of patterns
+const winPatterns = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+]
 // Player factory function
 const Player = (sign) => {
     const getSign = () => sign
@@ -35,69 +45,83 @@ const Player = (sign) => {
 
 const player1 = Player('X')
 const player2 = Player('O')
-
-const TicTacToe = (e) => {
-    gameController.getPlayerChoices(e)
+// loop throu the grid
+cells.forEach((cell) => cell.addEventListener('click', (e)=>{
+    if ( turnX && cell.innerHTML === `` ) {
+        e.target.innerText = player1.getSign();
+        turnX =!turnX 
+        displayGameController.toggleActivePlayer(); 
+    } else if (!turnX && cell.innerHTML === `` ) {
+        e.target.innerText = player2.getSign(); 
+        turnX =!turnX
+        displayGameController.toggleActivePlayer(); 
+    }
     gameController.playerWinner()
-    e.target.style.pointerEvents = 'none'
-}
+}))
+
+
 
 const gameController = (() => {
-    // get x or o
-    const getPlayerChoices = (e) => {
-        lastChoice = lastChoice === player1.getSign() ? player2.getSign() : player1.getSign()
-        e.target.innerText = lastChoice
-        displayGameController.toggleActivePlayer()
-    }
 
     // playerOne win or playerTwo
     const playerWinner = () => {
-        const winPatterns = [
-            [0, 1, 2],
-            [3, 4, 5],
-            [6, 7, 8],
-            [0, 3, 6],
-            [1, 4, 7],
-            [2, 5, 8],
-            [0, 4, 8],
-            [2, 4, 6],
-        ]
-
+    
         let winnerFound = false
 
-        winPatterns.forEach((pattern) => {
-            const [a, b, c] = pattern
-            if (cells[a].innerText === player1.getSign() && cells[b].innerText === player1.getSign() && cells[c].innerText === player1.getSign()) {
+            if (checkWinerX()) {
                 winnerFound = true
                 displayGameController.playerOneStatus()
-            } else if (cells[a].innerText === player2.getSign() && cells[b].innerText === player2.getSign() && cells[c].innerText === player2.getSign()) {
+            } else if (checkWinerO()) {
                 winnerFound = true
                 displayGameController.playerTwoStatus()
             }
-        })
-
-        if (winnerFound) {
+         if(winnerFound){
             displayGameController.showModal()
-        } else {
-            cnt++
-            if (cnt === cells.length) {
+
+         }else{
+            if (isTie()) {
                 displayGameController.showModal()
                 winner.innerHTML = 'It\'s a Tie!'
             }
-        }
+         }
+           
+        
     }
-    return { getPlayerChoices, playerWinner }
+    return {  playerWinner }
 })()
-
+// WIN X
+function checkWinerX(){
+return winPatterns.some((combinaition)=>{
+    return combinaition.every((i)=>{
+        return cells[i].innerText === player1.getSign();
+    })
+})
+}
+// win O
+function checkWinerO(){
+    return winPatterns.some((combinaition)=>{
+        return combinaition.every((i)=>{
+            return cells[i].innerText === player2.getSign();
+        })
+    })
+    }
+// Tie
+ function isTie(){
+    return cells.every((cell)=>cell.innerText ===player1.getSign() || cell.innerText === player2.getSign())
+ }
+    // Dom manipulation
 const displayGameController = (() => {
     // toggle active player
+    let toggle = true
     const toggleActivePlayer = () => {
-        if (lastChoice === player1.getSign()) {
+        if ( player1.getSign() && toggle) {
             playerX.classList.remove('add')
             playerO.classList.add('add')
-        } else {
+            toggle =!toggle
+        } else if(player2.getSign() && !toggle) {
             playerO.classList.remove('add')
             playerX.classList.add('add')
+            toggle = !toggle
         }
     }
 
@@ -134,12 +158,10 @@ const displayGameController = (() => {
     const restartGame = () => {
         cells.forEach((cell) => {
             cell.innerText = ''
-            cell.style.pointerEvents = 'auto'
         })
         modal.style.transform = 'scale(0)'
         overlay.style.display = 'none'
-        lastChoice = null
-        cnt = 0
+         turnX = true;
         playerO.classList.remove('add')
         playerX.classList.add('add')
     }
@@ -163,7 +185,6 @@ const displayGameController = (() => {
 })()
 
 // event listeners
-cells.forEach((cell) => cell.addEventListener('click', TicTacToe))
 restart.addEventListener('click', displayGameController.restartGame)
 humberger.addEventListener('click', displayGameController.showNav)
 close.addEventListener('click', displayGameController.hideNav)
